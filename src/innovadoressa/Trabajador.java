@@ -44,4 +44,52 @@ public class Trabajador {
         }
         return false;
     }
+
+    public double calcularPension() {
+        switch (fondoPension) {
+            case "AFP_INTEGRA": return sueldoBase * 0.121;
+            case "AFP_PRIMA":   return sueldoBase * 0.125;
+            case "AFP_HABITAT": return sueldoBase * 0.127;
+            case "ONP":         return sueldoBase * 0.13;
+            default:            return 0;
+        }
+    }
+
+    public double calcularBonos() {
+        double total = 0;
+        if (pactoColectivo && regimen.equals("728")) {
+            total += sueldoBase * 0.10;
+        }
+        if (tieneHijos) {
+            total += 102.50;
+        }
+        if (trabajaNocturno) {
+            total += sueldoBase * 0.35;
+        }
+        return total;
+    }
+
+    public double calcularSueldoNeto() {
+        return sueldoBase + calcularBonos() - calcularPension();
+    }
+
+    public String getNombre()          { return nombre; }
+    public String getTipoDocumento()   { return tipoDocumento; }
+    public String getNumeroDocumento() { return numeroDocumento; }
+    public String getRegimen()         { return regimen; }
+    public String getFondoPension()    { return fondoPension; }
+    public double getSueldoBase()      { return sueldoBase; }
+
+    @Override
+    public String toString() {
+        return "\n  Nombre         : " + nombre +
+               "\n  Tipo Doc.      : " + tipoDocumento +
+               "\n  Nro. Documento : " + numeroDocumento +
+               "\n  Regimen        : " + regimen +
+               "\n  Fondo Pension  : " + fondoPension +
+               "\n  Sueldo Base    : S/ " + String.format("%.2f", sueldoBase) +
+               "\n  Bonificaciones : S/ " + String.format("%.2f", calcularBonos()) +
+               "\n  Descuento AFP  : S/ " + String.format("%.2f", calcularPension()) +
+               "\n  Sueldo Neto    : S/ " + String.format("%.2f", calcularSueldoNeto());
+    }
 }
