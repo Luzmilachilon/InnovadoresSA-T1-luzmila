@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" basedir=".." name="InnovadoresSA-impl">
+    <property file="nbproject/private/config.properties"/>
+    <property file="nbproject/private/${config}.properties"/>
+    <property file="nbproject/private/private.properties"/>
+    <property file="nbproject/${config}.properties"/>
+    <property file="nbproject/project.properties"/>
+
+    <target name="default" depends="run" description="Build and run the project."/>
+
+    <target name="-init-macrodef-javac">
+        <mkdir dir="${build.classes.dir}"/>
+    </target>
+
+    <target name="compile" description="Compile source files.">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" source="${javac.source}" target="${javac.target}" encoding="${source.encoding}" includeantruntime="false"/>
+    </target>
+
+    <target name="run" depends="compile" description="Run the project.">
+        <java classname="${main.class}" classpath="${build.classes.dir}" fork="true"/>
+    </target>
+
+    <target name="clean" description="Clean build files.">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="jar" depends="compile" description="Build JAR.">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${dist.jar}" basedir="${build.classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+        <echo>JAR generado en ${dist.jar}</echo>
+    </target>
+</project>
